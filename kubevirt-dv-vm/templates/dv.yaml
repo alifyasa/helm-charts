@@ -2,7 +2,7 @@ apiVersion: cdi.kubevirt.io/v1beta1
 kind: DataVolume
 metadata:
   name: {{ .Release.Name }}-{{ .Chart.Name }}-dv
-  spec:
+spec:
   source:
     blank: {}
   pvc:
