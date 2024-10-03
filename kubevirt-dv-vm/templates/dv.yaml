@@ -5,9 +5,9 @@ metadata:
 spec:
   source:
     registry:
-      url: docker://docker.io/rrukmantiyo/kubevirt-images:ubuntu-22.04
+      url: docker://docker.io/shakir31/kubevirt-images:UBUNTU_22.04
   storage:
-    storageClassName: storage-nvme-c1 
+    storageClassName: nfs-standard 
     accessModes:
       - ReadWriteMany
     resources:
