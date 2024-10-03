@@ -2,7 +2,7 @@
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: vm-{{ $val }}-{{ $.Chart.Name }}-{{ $.Release.Name }}
+  name: vm-{{ $val }}
 spec:
   running: true
   template:
@@ -32,10 +32,10 @@ spec:
       volumes:
         - name: containerdisk
           dataVolume:
-            name: dv-{{ $val }}-{{ $.Chart.Name }}-{{ $.Release.Name }}
+            name: dv-{{ $val }}
         - name: cloudinitdisk
           cloudInitNoCloud:
-            userData: |-
+            userData: >
               #cloud-config
               #password: fedora
               #chpasswd: { expire: False }

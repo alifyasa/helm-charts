@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-{{ $val }}-{{ $.Chart.Name }}-{{ $.Release.Name }}
+  name: service-{{ $val }}
 spec:
   ports:
     - name: ssh
@@ -15,7 +15,7 @@ spec:
       port: 443
       targetPort: 443
   selector:
-    kubevirt.io/domain: vm-{{ $val }}-{{ $.Chart.Name }}-{{ $.Release.Name }}
+    kubevirt.io/domain: vm-{{ $val }}
   type: LoadBalancer
 ---
 {{ end -}}
