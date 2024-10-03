@@ -16,6 +16,9 @@ spec:
             - name: cloudinitdisk
               disk:
                 bus: virtio
+          interfaces:
+            - masquerade: {}
+              name: defaultnetwork
         resources:
           requests:
             memory: 4Gi
@@ -23,6 +26,9 @@ spec:
           limits:
             memory: 4Gi
             cpu: 2
+      networks:
+        - name: defaultnetwork
+          pod: {}
       volumes:
         - name: containerdisk
           dataVolume:
