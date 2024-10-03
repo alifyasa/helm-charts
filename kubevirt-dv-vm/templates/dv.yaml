@@ -1,3 +1,4 @@
+{{- range $i, $val := .Values.dataVolume.storageClasses }}
 apiVersion: cdi.kubevirt.io/v1beta1
 kind: DataVolume
 metadata:
@@ -13,4 +14,4 @@ spec:
     resources:
       requests:
         storage: 10Gi
-
+{{ end -}}
