@@ -1,7 +1,7 @@
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: {{ .Release.Name }}-{{ .Chart.Name }}-vm
+  name: vm-{{ .Chart.Name }}-{{ .Release.Name }}
 spec:
   running: false
   template:

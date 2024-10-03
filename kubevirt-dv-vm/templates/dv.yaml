@@ -2,13 +2,13 @@
 apiVersion: cdi.kubevirt.io/v1beta1
 kind: DataVolume
 metadata:
-  name: {{ .Release.Name }}-{{ .Chart.Name }}-dv
+  name: dv-{{ $val }}-{{ .Chart.Name }}-{{ .Release.Name }}
 spec:
   source:
     registry:
       url: docker://docker.io/shakir31/kubevirt-images:UBUNTU_22.04
   storage:
-    storageClassName: nfs-standard 
+    storageClassName: {{ $val }}
     accessModes:
       - ReadWriteMany
     resources:
