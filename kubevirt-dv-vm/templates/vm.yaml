@@ -16,7 +16,7 @@ spec:
           requests:
             memory: 4Gi
             cpu: 2
-          limit:
+          limits:
             memory: 4Gi
             cpu: 2
       volumes:
@@ -25,13 +25,13 @@ spec:
             name: {{ .Release.Name }}-{{ .Chart.Name }}-dv
         - name: cloudinitdisk
           cloudInitNoCloud:
-          userData: |-
-            #cloud-config
-            #password: fedora
-            #chpasswd: { expire: False }
-            #cloud-config
-            chpasswd:
-            list: |
-              ubuntu:QQ4j8fpusvqVgTu
-              root:toor
-            expire: False
+            userData: |-
+              #cloud-config
+              #password: fedora
+              #chpasswd: { expire: False }
+              #cloud-config
+              chpasswd:
+              list: |
+                ubuntu:QQ4j8fpusvqVgTu
+                root:toor
+              expire: False
