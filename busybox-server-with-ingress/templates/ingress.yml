@@ -13,9 +13,9 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: busybox-server-type-1
+                name: {{ .Chart.Name }}-service-type-1
                 port:
-                  number: 8081
+                  number: {{ .Values.service.type1.servicePort }}
     - host: b.example.com
       http:
         paths:
@@ -23,6 +23,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: busybox-server-type-2  # Make sure to define your second service
+                name: {{ .Chart.Name }}-service-type-2
                 port:
-                  number: 8082
+                  number: {{ .Values.service.type2.servicePort }}
