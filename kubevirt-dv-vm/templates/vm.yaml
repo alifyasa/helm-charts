@@ -9,13 +9,13 @@ spec:
       domain:
         devices:
           disks:
-            - name: dvDisk
+            - name: dv-disk
               disk:
                 bus: virtio
         resources:
           requests:
             memory: 2Gi
       volumes:
-        - name: dvDisk
+        - name: dv-disk
           dataVolume:
             name: {{ .Release.Name }}-{{ .Chart.Name }}-dv
