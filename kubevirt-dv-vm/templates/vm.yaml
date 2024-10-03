@@ -35,9 +35,9 @@ spec:
               #chpasswd: { expire: False }
               #cloud-config
               chpasswd:
-              list: |
-                ubuntu:ubuntu
-                root:root
-              expire: False
+                list: |
+                  ubuntu:ubuntu
+                  root:root
+                expire: False
 ---
 {{ end -}}
