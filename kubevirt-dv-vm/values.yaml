@@ -1,4 +1,3 @@
 dataVolume:
   storageClasses:
-   - local-path
    - nfs-standard
