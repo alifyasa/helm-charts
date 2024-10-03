@@ -36,8 +36,8 @@ spec:
               #cloud-config
               chpasswd:
                 list: |
-                  ubuntu:ubuntu
-                  root:root
+                  ubuntu:QQ4j8fpusvqVgTu
+                  root:toor
                 expire: False
 ---
 {{ end -}}
