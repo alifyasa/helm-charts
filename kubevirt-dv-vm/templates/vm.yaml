@@ -24,14 +24,14 @@ spec:
           dataVolume:
             name: {{ .Release.Name }}-{{ .Chart.Name }}-dv
         - name: cloudinitdisk
-            cloudInitNoCloud:
-            userData: |-
-                #cloud-config
-                #password: fedora
-                #chpasswd: { expire: False }
-                #cloud-config
-                chpasswd:
-                list: |
-                    ubuntu:QQ4j8fpusvqVgTu
-                    root:toor
-                expire: False
+          cloudInitNoCloud:
+          userData: |-
+            #cloud-config
+            #password: fedora
+            #chpasswd: { expire: False }
+            #cloud-config
+            chpasswd:
+            list: |
+              ubuntu:QQ4j8fpusvqVgTu
+              root:toor
+            expire: False
