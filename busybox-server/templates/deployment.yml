@@ -16,7 +16,7 @@ spec:
         - name: busybox
           image: busybox
           ports:
-            containerPort: {{ .Values.containerPort }}
+            - containerPort: {{ .Values.containerPort }}
           command:
             - "sh"
             - "-c"
