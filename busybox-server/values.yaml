@@ -1,0 +1,4 @@
+replicaCount: 3
+containerPort: 8080
+servicePort: 8081
+serviceType: NodePort

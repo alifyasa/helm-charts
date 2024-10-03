@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}-deployment
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-deployment
+    spec:
+      containers:
+        - name: busybox
+          image: busybox
+          command:
+            - "sh"
+            - "-c"
+            - |
+                while true; do
+                  {
+                    BODY="Current time: $(date)\n\nEnvironment Variables:\n$(printenv)\n";
+                    echo -ne "HTTP/1.1 200 OK\r\nContent-Length: $(echo -ne "$BODY" | wc -c)\r\n\r\n$BODY";
+                  } | nc -l -p {{ .Values.containerPort }};
+                done
+      restartPolicy: Always
