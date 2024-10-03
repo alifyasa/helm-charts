@@ -1,0 +1,21 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-vm
+spec:
+  running: false
+  template:
+    spec:
+      domain:
+        devices:
+          disks:
+            - name: dvDisk
+              disk:
+                bus: virtio
+        resources:
+          requests:
+            memory: 2Gi
+      volumes:
+        - name: dvDisk
+          dataVolume:
+            name: {{ .Release.Name }}-{{ .Chart.Name }}-dv
