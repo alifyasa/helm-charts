@@ -4,7 +4,7 @@ metadata:
   name: {{ .Chart.Name }}-service-type-2
 spec:
   selector:
-    app: {{ .Chart.Name }}-service-type-2
+    app: {{ .Chart.Name }}-deployment-type-1
   ports:
     - protocol: TCP
       port: {{ .Values.service.type2.servicePort }}
