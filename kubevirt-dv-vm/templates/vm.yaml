@@ -10,7 +10,10 @@ spec:
       domain:
         devices:
           disks:
-            - name: dv-disk
+            - name: containerdisk
+              disk:
+                bus: virtio
+            - name: cloudinitdisk
               disk:
                 bus: virtio
         resources:
@@ -21,7 +24,7 @@ spec:
             memory: 4Gi
             cpu: 2
       volumes:
-        - name: dv-disk
+        - name: containerdisk
           dataVolume:
             name: dv-{{ $val }}-{{ $.Chart.Name }}-{{ $.Release.Name }}
         - name: cloudinitdisk
