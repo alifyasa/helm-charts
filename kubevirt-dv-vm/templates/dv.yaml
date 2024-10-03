@@ -3,12 +3,13 @@ kind: DataVolume
 metadata:
   name: {{ .Release.Name }}-{{ .Chart.Name }}-dv
 spec:
-  source:
-    blank: {}
-  pvc:
+  registry:
+    url: docker://docker.io/shakir31/kubevirt-images:UBUNTU_22.04
+  storage:
+    storageClassName: storage-nvme-c1 
     accessModes:
-      - ReadWriteOnce
+      - ReadWriteMany
     resources:
       requests:
         storage: 10Gi
-    storageClassName: standard
+
