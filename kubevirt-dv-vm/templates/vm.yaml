@@ -35,15 +35,9 @@ spec:
             name: dv-{{ $val }}
         - name: cloudinitdisk
           cloudInitNoCloud:
-            userData: |-
+            userData: |
               #cloud-config
-              #password: fedora
-              #chpasswd: { expire: False }
-              #cloud-config
-              chpasswd:
-                list: |
-                  ubuntu:QQ4j8fpusvqVgTu
-                  root:toor
-                expire: False
+              ssh_authorized_keys:
+                - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC+2GL+iq5M3AkKUMlRIJp1BOVUr5SfbqZZ8VA6BgEcAe7jSQv+fGJkW1OEDJGILqtXuzwd/J6Ry2zRvv5DlLOr2Vgrmd6UqFEbi8CjfJ4eLOb7vaso3WUrHXshtuX4Kakfb49scIGPGNEwla7aTlHQMF15+sGEYkHmfSDE/F6jH84GHWq1y9O6x2RLTSR77dZqJc7Jp5PI1tkyykfpETmTKpkWJ5tsJqCNRb2utP7GfjnQBWDfzPHuFMjf9aJHVl9lzkPd44onJ4zOXTbqv2R2kWNz2MiKBGkoW2U8fb1g1JjujY70buixnag14EvO4UUKpt4YEW9RID0vhXk2HSAJUFH1YiH1tkDr/GwoFTNzTBpUU3Oa1HGFGyfGOqkisHuhabJ+fZoDSUboIV/QQnmY2VVVvlxC0ul4wht/HlFpIHZ+q6lIM49egrWGGLF/OjLqwozVrM5L746RxIVcZG0RFiW0XLw0MHMh4zKqIgafW7jnI6hC6chjGLa/uAciLvM= root@vm-development-1
 ---
 {{ end -}}
