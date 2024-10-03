@@ -37,11 +37,12 @@ spec:
           cloudInitNoCloud:
             userData: |-
               #cloud-config
+              #ubuntu2:ubuntu2
               chpasswd:
                 list: |
-                  "ubuntu1:gampang123"
-                  "ubuntu2:$y$j9T$hmDkxYAgA6ZMmme4rITAW/$nJh7Fb2uJLeBlAggCiH87007oD30UBeD2JT3SH6/Q39"
-                  "root:toor4567"
+                  ubuntu1:gampang123
+                  ubuntu2:$y$j9T$P5yfLiGju7lrk8edmzjuC.$D0QL8P7jDKKTysWJACeLpzOgA0dz0Wy6i//NmTFuk79
+                  root:toor4567
                 expire: False
               ssh_authorized_keys:
                 - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC+2GL+iq5M3AkKUMlRIJp1BOVUr5SfbqZZ8VA6BgEcAe7jSQv+fGJkW1OEDJGILqtXuzwd/J6Ry2zRvv5DlLOr2Vgrmd6UqFEbi8CjfJ4eLOb7vaso3WUrHXshtuX4Kakfb49scIGPGNEwla7aTlHQMF15+sGEYkHmfSDE/F6jH84GHWq1y9O6x2RLTSR77dZqJc7Jp5PI1tkyykfpETmTKpkWJ5tsJqCNRb2utP7GfjnQBWDfzPHuFMjf9aJHVl9lzkPd44onJ4zOXTbqv2R2kWNz2MiKBGkoW2U8fb1g1JjujY70buixnag14EvO4UUKpt4YEW9RID0vhXk2HSAJUFH1YiH1tkDr/GwoFTNzTBpUU3Oa1HGFGyfGOqkisHuhabJ+fZoDSUboIV/QQnmY2VVVvlxC0ul4wht/HlFpIHZ+q6lIM49egrWGGLF/OjLqwozVrM5L746RxIVcZG0RFiW0XLw0MHMh4zKqIgafW7jnI6hC6chjGLa/uAciLvM= root@vm-development-1
