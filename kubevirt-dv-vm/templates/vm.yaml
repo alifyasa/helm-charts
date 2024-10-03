@@ -35,7 +35,7 @@ spec:
             name: dv-{{ $val }}
         - name: cloudinitdisk
           cloudInitNoCloud:
-            userData: >
+            userData: |-
               #cloud-config
               #password: fedora
               #chpasswd: { expire: False }
