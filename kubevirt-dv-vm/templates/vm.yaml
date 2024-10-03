@@ -1,7 +1,8 @@
+{{- range $i, $val := .Values.dataVolume.storageClasses }}
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: vm-{{ .Chart.Name }}-{{ .Release.Name }}
+  name: vm-{{ $.Chart.Name }}-{{ $.Release.Name }}
 spec:
   running: false
   template:
@@ -22,7 +23,7 @@ spec:
       volumes:
         - name: dv-disk
           dataVolume:
-            name: {{ .Release.Name }}-{{ .Chart.Name }}-dv
+            name: dv-{{ $val }}-{{ $.Chart.Name }}-{{ $.Release.Name }}
         - name: cloudinitdisk
           cloudInitNoCloud:
             userData: |-
@@ -35,3 +36,5 @@ spec:
                 ubuntu:QQ4j8fpusvqVgTu
                 root:toor
               expire: False
+---
+{{ end -}}
