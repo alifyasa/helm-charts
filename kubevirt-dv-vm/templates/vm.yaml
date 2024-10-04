@@ -35,10 +35,6 @@ spec:
             name: dv-{{ $val }}
         - name: cloudinitdisk
           cloudInitNoCloud:
-            userData: |-
-              #cloud-config
-        - name: cloudinitdisk
-          cloudInitNoCloud:
             # alifyasa:ubuntu
             # Thanks to https://stackoverflow.com/a/61868231
             userData: |
