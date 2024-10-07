@@ -4,6 +4,9 @@ kind: DataVolume
 metadata:
   name: dv-{{ $val }}-extra
 spec:
+  source:
+    pvc:
+      name: pvc-{{ $val }}-dv-extra
   storage:
     storageClassName: {{ $val }}
     accessModes:
