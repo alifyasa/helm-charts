@@ -11,7 +11,7 @@ spec:
         - userPassword:
             source:
               secret:
-                secretName: vm-user-credentials
+                secretName: vm-{{ $val }}-user-credentials
             propagationMethod:
               qemuGuestAgent: {}
       domain:
