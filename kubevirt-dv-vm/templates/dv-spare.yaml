@@ -1,0 +1,15 @@
+{{- range $i, $val := .Values.dataVolume.storageClasses }}
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: dv-{{ $val }}-extra
+spec:
+  storage:
+    storageClassName: {{ $val }}
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 10Gi
+---
+{{ end -}}
