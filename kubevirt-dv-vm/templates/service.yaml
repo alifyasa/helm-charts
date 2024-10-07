@@ -14,6 +14,9 @@ spec:
     - name: https
       port: 443
       targetPort: 443
+    - name: testing
+      port: 8081
+      targetPort: 8081
   type: LoadBalancer
 ---
 {{ end -}}
