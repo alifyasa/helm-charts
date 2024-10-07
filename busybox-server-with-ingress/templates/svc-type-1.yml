@@ -9,4 +9,4 @@ spec:
     - protocol: TCP
       port: {{ .Values.service.type1.servicePort }}
       targetPort: {{ .Values.deployments.type1.containerPort }}
-  type: LoadBalancer
+  type: NodePort
