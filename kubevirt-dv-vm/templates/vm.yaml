@@ -3,7 +3,12 @@ apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
   name: vm-{{ $val }}
+  labels:
+    name: vm-{{ $val }} 
 spec:
+  selector:
+    matchLabels:
+      name: vm-{{ $val }} 
   running: true
   template:
     spec:
