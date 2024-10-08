@@ -22,15 +22,17 @@ jobs:
       run: |
         # Handle the case where HEAD~1 doesn't exist (e.g., on the first commit)
         if git rev-parse HEAD~1 >/dev/null 2>&1; then
-          # If there is more than one commit, compare with HEAD~1
           CHANGED_DIRS=$(git diff --name-only HEAD~1 HEAD)
         else
-          # If it's the first commit, use all files
           CHANGED_DIRS=$(git ls-files)
         fi
 
-        # Get the list of Helm chart directories (assumed to be the parent directories of charts and templates folders)
+        echo "Changed directories: $CHANGED_DIRS" # Debug line
+
+        # Get the list of Helm chart directories
         ALL_CHART_DIRS=$(find . -type d -name "charts" -or -name "templates" | xargs -I{} dirname {} | sort -u)
+
+        echo "All chart directories: $ALL_CHART_DIRS" # Debug line
 
         # Initialize an empty variable to store directories of charts that have changed
         CHANGED_CHART_DIRS=""
@@ -42,22 +44,22 @@ jobs:
           fi
         done
 
-        # Output the changed directories for the next step
-        echo "::set-output name=changed-charts::$CHANGED_CHART_DIRS"
+        echo "Changed chart directories: $CHANGED_CHART_DIRS" # Debug line
+
+        # Output the changed directories for the next step using environment files
+        echo "changed-charts=$CHANGED_CHART_DIRS" >> $GITHUB_ENV
 
     - name: Package changed charts
-      if: steps.find-charts.outputs.changed-charts != ''
+      if: env.changed-charts != ''
       run: |
-        # Create a directory to store the packaged charts
+        echo "Packaging charts: ${{ env.changed-charts }}" # Debug line
         mkdir -p packaged-charts
-
-        # Iterate over the changed charts and package them
-        for CHART in ${{ steps.find-charts.outputs.changed-charts }}; do
+        for CHART in ${{ env.changed-charts }}; do
           helm package "$CHART" --destination ./packaged-charts
         done
 
     - name: Upload Helm chart artifacts
-      if: steps.find-charts.outputs.changed-charts != ''
+      if: env.changed-charts != ''
       uses: actions/upload-artifact@v3
       with:
         name: helm-packaged-charts
