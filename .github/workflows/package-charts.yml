@@ -39,7 +39,10 @@ jobs:
 
         # Loop through all Helm chart directories and check if they are in the changed files list
         for CHART_DIR in $ALL_CHART_DIRS; do
-          if echo "$CHANGED_DIRS" | grep -q "$CHART_DIR"; then
+          # Remove './' from CHART_DIR for comparison
+          NORMALIZED_CHART_DIR=$(echo "$CHART_DIR" | sed 's|^\./||')
+
+          if echo "$CHANGED_DIRS" | grep -q "$NORMALIZED_CHART_DIR"; then
             CHANGED_CHART_DIRS="$CHANGED_CHART_DIRS $CHART_DIR"
           fi
         done
