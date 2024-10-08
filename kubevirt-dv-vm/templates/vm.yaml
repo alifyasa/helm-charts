@@ -6,9 +6,6 @@ metadata:
   labels:
     name: vm-{{ $val }} 
 spec:
-  selector:
-    matchLabels:
-      name: vm-{{ $val }} 
   running: true
   template:
     spec:
