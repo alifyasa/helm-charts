@@ -6,6 +6,26 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
+    - host: a.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Chart.Name }}-service-type-1
+                port:
+                  number: {{ .Values.service.type1.servicePort }}
+    - host: b.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Chart.Name }}-service-type-2
+                port:
+                  number: {{ .Values.service.type2.servicePort }}
   {{- range $i, $val := .Values.dataVolume.storageClasses }}
     - host: vm-{{ $val }}.example.com
       http:
@@ -18,24 +38,3 @@ spec:
                 port:
                   number: 80
   {{ end -}}  
-    - host: a.example.com
-        http:
-          paths:
-            - path: /
-              pathType: Prefix
-              backend:
-                service:
-                  name: {{ .Chart.Name }}-service-type-1
-                  port:
-                    number: {{ .Values.service.type1.servicePort }}
-    - host: b.example.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .Chart.Name }}-service-type-2
-                port:
-                  number: {{ .Values.service.type2.servicePort }}
-
