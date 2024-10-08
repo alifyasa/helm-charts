@@ -1,3 +1,17 @@
 dataVolume:
   storageClasses:
    - nfs-standard
+
+deployments:
+  type1:
+    containerPort: 8080
+    replicaCount: 3
+  type2:
+    containerPort: 8080
+    replicaCount: 3
+
+service:
+  type1:
+    servicePort: 8081
+  type2:
+    servicePort: 8082
