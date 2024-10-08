@@ -20,8 +20,14 @@ jobs:
     - name: Find changed Helm charts
       id: find-charts
       run: |
-        # Get the list of changed files from the last commit
-        CHANGED_DIRS=$(git diff --name-only HEAD~1 HEAD)
+        # Handle the case where HEAD~1 doesn't exist (e.g., on the first commit)
+        if git rev-parse HEAD~1 >/dev/null 2>&1; then
+          # If there is more than one commit, compare with HEAD~1
+          CHANGED_DIRS=$(git diff --name-only HEAD~1 HEAD)
+        else
+          # If it's the first commit, use all files
+          CHANGED_DIRS=$(git ls-files)
+        fi
 
         # Get the list of Helm chart directories (assumed to be the parent directories of charts and templates folders)
         ALL_CHART_DIRS=$(find . -type d -name "charts" -or -name "templates" | xargs -I{} dirname {} | sort -u)
