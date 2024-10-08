@@ -20,24 +20,29 @@ jobs:
     - name: Find changed Helm charts
       id: find-charts
       run: |
-        # Fetch the previous commit to compare
-        git fetch origin HEAD~1:previous_commit || echo "No previous commit found."
+        # Ensure we're on the right branch and fetch the history
+        git fetch origin +refs/heads/main:refs/remotes/origin/main
 
-        # Get the list of changed files
-        CHANGED_DIRS=$(git diff --name-only previous_commit HEAD || echo "")
-        
-        # Check if CHANGED_DIRS is empty and set to a fallback if necessary
-        if [[ -z "$CHANGED_DIRS" ]]; then
-          echo "No changed directories detected."
-          echo "changed-charts=" >> $GITHUB_ENV
-          exit 0
+        # Check for at least one commit in the repository
+        if [ "$(git rev-list --count HEAD)" -le 1 ]; then
+          echo "No previous commit found. Packaging all charts."
+          # Get all chart directories for packaging
+          CHANGED_DIRS=$(find . -name "Chart.yaml" -exec dirname {} \;)
+        else
+          # Get the list of changed files since the last commit
+          CHANGED_DIRS=$(git diff --name-only HEAD~1 HEAD)
+          echo "Changed directories: $CHANGED_DIRS" # Debug line
+
+          # If no changes are detected, we can skip the rest
+          if [[ -z "$CHANGED_DIRS" ]]; then
+            echo "No changed directories detected."
+            echo "changed-charts=" >> $GITHUB_ENV
+            exit 0
+          fi
         fi
-
-        echo "Changed directories: $CHANGED_DIRS" # Debug line
 
         # Get the list of Helm chart directories
         ALL_CHART_DIRS=$(find . -type d -name "charts" -or -name "templates" | xargs -I{} dirname {} | sort -u)
-
         echo "All chart directories: $ALL_CHART_DIRS" # Debug line
 
         # Initialize an empty variable to store directories of charts that have changed
@@ -47,9 +52,11 @@ jobs:
         for CHART_DIR in $ALL_CHART_DIRS; do
           # Remove './' from CHART_DIR for comparison
           NORMALIZED_CHART_DIR=$(echo "$CHART_DIR" | sed 's|^\./||')
+          echo "Checking if '$NORMALIZED_CHART_DIR' is in changed directories..." # Debug line
 
           if echo "$CHANGED_DIRS" | grep -q "$NORMALIZED_CHART_DIR"; then
             CHANGED_CHART_DIRS="$CHANGED_CHART_DIRS $CHART_DIR"
+            echo "Detected change in chart directory: $CHART_DIR" # Debug line
           fi
         done
 
@@ -58,9 +65,12 @@ jobs:
         # Output the changed directories for the next step using environment files
         if [[ -n "$CHANGED_CHART_DIRS" ]]; then
           echo "changed-charts=$CHANGED_CHART_DIRS" >> $GITHUB_ENV
+          echo "Changed charts set for next step: $CHANGED_CHART_DIRS" # Debug line
         else
           echo "changed-charts=" >> $GITHUB_ENV
+          echo "No changed charts found." # Debug line
         fi
+
 
     - name: Package changed charts
       if: env.changed-charts != ''
