@@ -1,0 +1,3 @@
+dataVolume:
+  storageClasses:
+   - nfs-standard

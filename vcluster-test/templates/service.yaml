@@ -1,0 +1,22 @@
+{{- range $i, $val := .Values.dataVolume.storageClasses }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-{{ $val }}
+spec:
+  ports:
+    - name: ssh
+      port: 22
+      targetPort: 22
+    - name: http
+      port: 80
+      targetPort: 80
+    - name: https
+      port: 443
+      targetPort: 443
+    - name: testing
+      port: 8081
+      targetPort: 8081
+  type: NodePort
+---
+{{ end -}}

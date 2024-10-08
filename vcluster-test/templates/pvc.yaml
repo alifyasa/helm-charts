@@ -1,0 +1,14 @@
+{{- range $i, $val := .Values.dataVolume.storageClasses }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-{{ $val }}-dv-extra
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: {{ $val }}
+---
+{{ end -}}

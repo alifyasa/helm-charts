@@ -1,0 +1,68 @@
+{{- range $i, $val := .Values.dataVolume.storageClasses }}
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm-{{ $val }}
+  labels:
+    name: vm-{{ $val }} 
+spec:
+  running: true
+  template:
+    spec:
+      #accessCredentials:
+      #  - userPassword:
+      #      source:
+      #        secret:
+      #          secretName: vm-{{ $val }}-user-credentials
+      #      propagationMethod:
+      #        qemuGuestAgent: {}
+      domain:
+        devices:
+          disks:
+            - name: containerdisk
+              disk:
+                bus: virtio
+            - name: cloudinitdisk
+              disk:
+                bus: virtio
+          interfaces:
+            - masquerade: {}
+              name: defaultnetwork
+        resources:
+          requests:
+            memory: 4Gi
+            cpu: 2
+          limits:
+            memory: 4Gi
+            cpu: 2
+      networks:
+        - name: defaultnetwork
+          pod: {}
+      volumes:
+        - name: containerdisk
+          dataVolume:
+            name: dv-{{ $val }}
+        - name: cloudinitdisk
+          cloudInitNoCloud:
+            # alifyasa:ubuntu
+            # Thanks to https://stackoverflow.com/a/61868231
+            userData: |
+              #cloud-config
+              users:
+                - default
+                - name: alifyasa
+                  passwd: "$y$j9T$bcUpk08btOwDcf28KTvBa.$QHDBpTFIwnrl7QGXKPd5ymNezTLGMguRLmxQV/H.XW9"
+                  shell: /bin/bash
+                  lock-passwd: false
+                  ssh_pwauth: True
+                  chpasswd: { expire: False }
+                  sudo: ALL=(ALL) NOPASSWD:ALL
+                  groups: users, admin
+                  ssh_authorized_keys:
+                   - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCjvUmyEWYijz6OUaJvnVWL3Lh77A00bc2I0vlDNwuQgQ53gn0qEPw87fAEaNMb1gQpgeCXevlTkxs2tHZ6c+AL1Bwll/G8VhH5orBf24uOZRuCQcR16ZfR+Gl1DT4d9W6VyB4YPkOed0jietDKz5oGsmFQkVcGJuMCw5GfP22k8z3XGCqDDIoX1F0xmJpupBjgSEg7Syv2EvZVgZNoeKnsN3XAOEXGTPTYvZpA9hMxIEnnZfo1194r6dU99B6MDSFwjjhrldqgpou4bD/K4t7sG1Zagqqc7SoSeo0Ki7h5TnwJ+N1DXta90Epv/5giyKCX9qCvjdpmcP/REujEV74J5oHhhteMAwhCA8IRDy7VmxWrNrKQhGuN9iy8hRQ56t6EVGpGrtKBUQ+WBtG319mHvvsldI6qIjXs7+9JcFbtsVKvIXTaHxJpqWEIZ6EKRNtxhVqT/0ukdABLmKwDPPiPpviDS/d4bWoL4wI8ILMN5IPfrbL369iQodlAHNu04y8= user@192-168-124-238
+              autoinstall:
+                  version: 1
+                  refresh-installer:
+                      update: yes
+---
+{{ end -}}
