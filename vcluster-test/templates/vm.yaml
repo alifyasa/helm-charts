@@ -9,13 +9,13 @@ spec:
   running: true
   template:
     spec:
-      #accessCredentials:
-      #  - userPassword:
-      #      source:
-      #        secret:
-      #          secretName: vm-{{ $val }}-user-credentials
-      #      propagationMethod:
-      #        qemuGuestAgent: {}
+      accessCredentials:
+        - userPassword:
+            source:
+              secret:
+                secretName: vm-{{ $val }}-user-credentials
+            propagationMethod:
+              qemuGuestAgent: {}
       domain:
         devices:
           disks:
