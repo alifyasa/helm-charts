@@ -2,7 +2,7 @@
 apiVersion: cdi.kubevirt.io/v1beta1
 kind: DataVolume
 metadata:
-  name: dv-{{ $val }}-{{ include "uniqueString" . }}
+  name: dv-{{ $val }}
 spec:
   source:
     registry:

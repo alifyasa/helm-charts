@@ -13,7 +13,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: svc-type-1-{{ include "uniqueString" . }}
+                name: {{ .Chart.Name }}-service-type-1
                 port:
                   number: {{ .Values.service.type1.servicePort }}
     - host: b.example.com
@@ -23,7 +23,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: svc-type-2-{{ include "uniqueString" . }}
+                name: {{ .Chart.Name }}-service-type-2
                 port:
                   number: {{ .Values.service.type2.servicePort }}
   {{- range $i, $val := .Values.dataVolume.storageClasses }}
@@ -34,7 +34,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: service-{{ $val }}-{{ include "uniqueString" . }}
+                name: service-{{ $val }}
                 port:
                   number: 80
   {{ end -}}  

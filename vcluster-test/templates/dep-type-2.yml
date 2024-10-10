@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployment-type-2-{{ include "uniqueString" . }}
+  name: {{ .Chart.Name }}-deployment-type-2
 spec:
   replicas: {{ .Values.deployments.type2.replicaCount }}
   selector:
     matchLabels:
-      app: deployment-type-2-{{ include "uniqueString" . }}
+      app: {{ .Chart.Name }}-deployment-type-2
   template:
     metadata:
       labels:
-        app: deployment-type-2-{{ include "uniqueString" . }}
+        app: {{ .Chart.Name }}-deployment-type-2
     spec:
       containers:
         - name: busybox

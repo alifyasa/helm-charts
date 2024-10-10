@@ -2,9 +2,9 @@
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: vm-{{ $val }}-{{ include "uniqueString" . }}
+  name: vm-{{ $val }}-{{ randAlphaNum 8 }}
   labels:
-    special: vm-{{ $val }}-{{ include "uniqueString" . }}
+    special: vm-{{ $val }} 
 spec:
   running: true
   template:
@@ -44,7 +44,7 @@ spec:
       volumes:
         - name: containerdisk
           dataVolume:
-            name: dv-{{ $val }}-{{ include "uniqueString" . }}
+            name: dv-{{ $val }}
         - name: cloudinitdisk
           cloudInitNoCloud:
             # alifyasa:ubuntu

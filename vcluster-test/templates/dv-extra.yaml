@@ -2,11 +2,11 @@
 apiVersion: cdi.kubevirt.io/v1beta1
 kind: DataVolume
 metadata:
-  name: dv-{{ $val }}-extra-{{ include "uniqueString" . }}
+  name: dv-{{ $val }}-extra
 spec:
   source:
     pvc:
-      name: pvc-{{ $val }}-dv-extra-{{ include "uniqueString" . }}
+      name: pvc-{{ $val }}-dv-extra
       namespace: default
   storage:
     storageClassName: {{ $val }}

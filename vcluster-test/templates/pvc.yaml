@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-{{ $val }}-dv-extra-{{ include "uniqueString" . }}
+  name: pvc-{{ $val }}-dv-extra
 spec:
   accessModes:
     - ReadWriteMany
