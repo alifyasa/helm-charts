@@ -1,3 +1,6 @@
 {{- define "uniqueString" -}}
-    {{ randAlpha 8 | lower }}
+{{- if not .Values.randomSuffix }}
+    {{- $_ := set .Values "randomSuffix" (randAlpha 8 | lower) -}}
+{{- end -}}
+{{ .Values.randomSuffix }}
 {{- end -}}
