@@ -6,6 +6,10 @@ metadata:
   labels:
     special: vm-{{ $val }} 
 spec:
+  tolerations:
+    - key: "node-role.kubernetes.io/master"
+      operator: "Exists"
+      effect: "NoSchedule"
   running: true
   template:
     metadata:
