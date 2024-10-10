@@ -4,10 +4,13 @@ kind: VirtualMachine
 metadata:
   name: vm-{{ $val }}
   labels:
-    name: vm-{{ $val }} 
+    special: vm-{{ $val }} 
 spec:
   running: true
   template:
+    metadata:
+      labels:
+        kubevirt.io/domain: xl-poc
     spec:
       #accessCredentials:
       #  - userPassword:
