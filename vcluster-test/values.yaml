@@ -15,5 +15,3 @@ service:
     servicePort: 8081
   type2:
     servicePort: 8082
-  
-fullnameOverride: null
