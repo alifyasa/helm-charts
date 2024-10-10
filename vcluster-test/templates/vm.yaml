@@ -2,7 +2,7 @@
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: vm-{{ $val }}-{{ randAlphaNum 8 }}
+  name: vm-{{ $val }}-{{ $.Chart.Name }}
   labels:
     special: vm-{{ $val }} 
 spec:
