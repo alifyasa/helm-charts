@@ -2,6 +2,6 @@
 {{- if .Values.fullnameOverride -}}
     {{ .Values.fullnameOverride }}
 {{- else -}}
-    {{ randAlpha 8 | lower }}
+    {{- printf (randAlpha 8 | lower) -}}
 {{- end -}}
 {{- end -}}
