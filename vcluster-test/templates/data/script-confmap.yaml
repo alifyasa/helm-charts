@@ -4,4 +4,4 @@ metadata:
   name: script-configmap
 data:
   monitor.sh: |-
-    {{- .Files.Get "scripts/monitor.sh" | indent 4 }}
+    {{- .Files.Get "scripts/monitor.sh" | nindent 4 }}
