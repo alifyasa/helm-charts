@@ -16,7 +16,7 @@ spec:
           ls -la /scripts > /tmp/script-output.txt
 
           # Create a ConfigMap using the output
-          kubectl create configmap {{ .Values.jobs.monitorJob.script.resultConfigMapName }} --from-file=output=/tmp/script-output.txt --dry-run=client -o yaml | kubectl apply -f -
+          kubectl create configmap {{ .Values.jobs.monitorJob.script.resultConfigMapName }}-{{ randAlphaNum 8 | lower }} --from-file=output=/tmp/script-output.txt
       volumeMounts:
         - name: script-volume
           mountPath: /scripts
