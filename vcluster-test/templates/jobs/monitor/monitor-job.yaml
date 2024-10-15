@@ -12,11 +12,10 @@ spec:
         - -c
         - |
           # Run the monitor.sh script with arguments from values.yaml
-          # /scripts/monitor.sh {{ .Values.jobs.monitorJob.scriptArgument }} > /tmp/script-output.txt
-          echo "Debug" > /tmp/script-output.txt
+          /scripts/monitor.sh {{ .Values.jobs.monitorJob.scriptArgument }} > /tmp/script-output.txt
           
           # Create a ConfigMap using the output
-          kubectl create configmap generated-configmap --from-file=output=/tmp/script-output.txt
+          kubectl create configmap generated-configmap --from-file=output=/tmp/script-output.txt --dry-run=client -o yaml | kubectl apply -f -
       volumeMounts:
         - name: script-volume
           mountPath: /scripts
