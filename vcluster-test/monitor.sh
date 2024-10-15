@@ -6,23 +6,26 @@ MAX_AGE_MINUTES=5
 STATUS="Succeeded"
 
 # Parse command-line options
-while getopts "n:t:s:" opt; do
+while getopts ":n:t:s:" opt; do
     case $opt in
         n) NAMESPACE="$OPTARG" ;;
         t) MAX_AGE_MINUTES="$OPTARG" ;;
         s) STATUS="$OPTARG" ;;
-        *) echo "Usage: $0 <resource_type> <resource_name> [-n namespace] [-t max_age_minutes] [-s status]" >&2
+        \?) echo "Invalid option: -$OPTARG" >&2
+            echo "Usage: $0 <resource_type> <resource_name> [-n namespace] [-t max_age_minutes] [-s status]"
+            exit 1 ;;
+        :) echo "Option -$OPTARG requires an argument." >&2
            exit 1 ;;
     esac
 done
 shift $((OPTIND -1))
 
 # Positional arguments
-RESOURCE_TYPE="${1}"
-RESOURCE_NAME="${2}"
+RESOURCE_TYPE="$1"
+RESOURCE_NAME="$2"
 
 if [[ -z "$RESOURCE_TYPE" || -z "$RESOURCE_NAME" ]]; then
-    echo "Usage: $0 <resource_type> <resource_name> [-n namespace] [-t max_age_minutes] [-s status]" >&2
+    echo "Usage: $0 <resource_type> <resource_name> [-n namespace] [-t max_age_minutes] [-s status]"
     exit 1
 fi
 
