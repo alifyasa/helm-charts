@@ -1,0 +1,15 @@
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: {{ .Values.kubevirt.dataVolumeExtra.name }}
+spec:
+  source:
+    pvc:
+      name: {{ .Values.kubevirt.dataVolumeExtra.pvc.name }}
+  storage:
+    storageClassName: {{ .Values.kubevirt.dataVolumeExtra.storageClassName }}
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 10Gi

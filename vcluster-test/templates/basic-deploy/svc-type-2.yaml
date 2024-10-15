@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.basicDeploy.serviceType2.name }}
+  labels:
+    subproject: {{ .Values.basicDeploy.name }}
+spec:
+  selector:
+    app: {{ .Values.basicDeploy.deploymentType2.name }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.basicDeploy.serviceType2.servicePort }}
+      targetPort: {{ .Values.basicDeploy.deploymentType2.containerPort }}
+  type: {{ .Values.basicDeploy.serviceType2.type }}

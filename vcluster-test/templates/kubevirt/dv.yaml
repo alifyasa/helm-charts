@@ -1,18 +1,15 @@
-{{- range $i, $val := .Values.dataVolume.storageClasses }}
 apiVersion: cdi.kubevirt.io/v1beta1
 kind: DataVolume
 metadata:
-  name: dv-{{ $val }}
+  name: {{ .Values.kubevirt.dataVolume.name }}
 spec:
   source:
     registry:
       url: docker://docker.io/rrukmantiyo/kubevirt-images:ubuntu-22.04
   storage:
-    storageClassName: {{ $val }}
+    storageClassName: {{ .Values.kubevirt.dataVolume.storageClassName }}
     accessModes:
       - ReadWriteMany
     resources:
       requests:
         storage: 10Gi
----
-{{ end -}}

@@ -1,16 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Chart.Name }}-deployment-type-1
+  name: {{ .Values.basicDeploy.deploymentType1.name }}
+  labels:
+    subproject: {{ .Values.basicDeploy.name }}
 spec:
-  replicas: {{ .Values.deployments.type1.replicaCount }}
+  replicas: {{ .Values.basicDeploy.deploymentType1.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}-deployment-type-1
+      app: {{ .Values.basicDeploy.deploymentType1.name }}
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}-deployment-type-1
+        app: {{ .Values.basicDeploy.deploymentType1.name }}
     spec:
       containers:
         - name: busybox
@@ -20,7 +22,7 @@ spec:
               cpu: 250m
               memory: 500Mi
           ports:
-            - containerPort: {{ .Values.deployments.type1.containerPort }}
+            - containerPort: {{ .Values.basicDeploy.deploymentType1.containerPort }}
           env:
             - name: Type
               value: "1"
@@ -32,6 +34,6 @@ spec:
                   {
                     BODY="Current time: $(date)\n\nEnvironment Variables:\n$(printenv)\n";
                     echo -ne "HTTP/1.1 200 OK\r\nContent-Length: $(echo -ne "$BODY" | wc -c)\r\n\r\n$BODY";
-                  } | nc -l -p {{ .Values.deployments.type1.containerPort }};
+                  } | nc -l -p {{ .Values.basicDeploy.deploymentType1.containerPort }};
                 done
       restartPolicy: Always

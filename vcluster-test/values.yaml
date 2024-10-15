@@ -1,17 +1,34 @@
-dataVolume:
-  storageClasses:
-   - nfs-standard
-
-deployments:
-  type1:
+basicDeploy:
+  name: basic-deploy
+  deploymentType1:
+    name: deployment-type-1.basic-deploy
     containerPort: 8080
     replicaCount: 3
-  type2:
-    containerPort: 8080
-    replicaCount: 3
-
-service:
-  type1:
+  serviceType1:
+    name: service-type-1.basic-deploy
     servicePort: 8081
-  type2:
+    type: NodePort
+  deploymentType2:
+    name: deployment-type-2.basic-deploy
+    containerPort: 8080
+    replicaCount: 3
+  serviceType2:
+    name: service-type-2.basic-deploy
     servicePort: 8082
+    type: NodePort
+
+kubevirt:
+  name: kubevirt
+  virtualMachine: 
+    name: vm.kubevirt
+  virtualMachineService:
+    name: vm-service.kubevirt
+    type: NodePort
+  dataVolume:
+    name: vm-dv.kubevirt
+    storageClassName: nfs-standard
+  dataVolumeExtra:
+    name: vm-dv-extra
+    storageClassName: nfs-standard
+    pvc:
+      name: vm-dv-extra-pvc.kubevirt
