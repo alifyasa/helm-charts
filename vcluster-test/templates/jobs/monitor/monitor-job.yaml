@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.jobs.monitorJob.name }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ .Values.jobs.monitorJob.serviceAccount.name }}
+      containers:
+        - name: bash-script-container
+          image: bitnami/kubectl:latest 
+          command:
+            - sh
+            - -c
+            - |
+              # Run the monitor.sh script with arguments from values.yaml
+              /script/monitor.sh {{ .Values.jobs.monitorJob.scriptArgument }} > /tmp/script-output.txt
+              
+              # Create a ConfigMap using the output
+              kubectl create configmap generated-configmap --from-file=output=/tmp/script-output.txt
+          volumeMounts:
+            - name: script-volume
+              mountPath: /scripts
+      restartPolicy: Never
+      volumes:
+        - name: script-volume
+          configMap:
+            name: {{ .Values.data.scriptsConfigMap.name }}
+            items:
+              - key: monitor.sh
+                path: monitor.sh

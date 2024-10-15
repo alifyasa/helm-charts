@@ -38,5 +38,19 @@ ingress:
   name: ingress   
 
 jobs:
+  monitorJob:
+    name: job-x-monitor-job
+    serviceAccount:
+      name: service-account-x-monitor-job
+      namespace: default
+    role:
+      name: role-x-monitor-job
+      namespace: default
+    roleBinding:
+      name: role-binding-x-monitor-job
+      namespace: default
+    scriptArgument: "vm vm-x-kubevirt -p '.status.ready' -s true -t 10"
+
+data:
   scriptsConfigMap:
     name: scripts-configmap
