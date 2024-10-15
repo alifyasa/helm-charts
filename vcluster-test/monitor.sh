@@ -5,6 +5,11 @@ NAMESPACE="default"
 MAX_AGE_MINUTES=5
 STATUS="Succeeded"
 
+# Positional arguments
+RESOURCE_TYPE="$1"
+RESOURCE_NAME="$2"
+shift 2
+
 # Parse command-line options
 while getopts ":n:t:s:" opt; do
     case $opt in
@@ -18,11 +23,6 @@ while getopts ":n:t:s:" opt; do
            exit 1 ;;
     esac
 done
-shift $((OPTIND - 1))
-
-# Positional arguments
-RESOURCE_TYPE="$1"
-RESOURCE_NAME="$2"
 
 # Ensure positional arguments are provided
 if [[ -z "$RESOURCE_TYPE" || -z "$RESOURCE_NAME" ]]; then
