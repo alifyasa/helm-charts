@@ -12,14 +12,18 @@ spec:
         - -c
         - |
           # Run the monitor.sh script with arguments from values.yaml
-          touch /tmp/script-output.txt
-          whoami >> /tmp/script-output.txt
-          ls /scripts >> /tmp/script-output.txt
-          cat /scripts/monitor.sh >> /tmp/script-output.txt
-          /scripts/monitor.sh {{ .Values.jobs.monitorJob.script.argument }} >> /tmp/script-output.txt
+          touch /tmp/script-output.txt 
+          touch /tmp/script-error.txt
+          whoami >> /tmp/script-output.txt 2>> /tmp/script-error.txt
+          ls /scripts >> /tmp/script-output.txt 2>> /tmp/script-error.txt
+          cat /scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
+          /scripts/monitor.sh {{ .Values.jobs.monitorJob.script.argument }} >> /tmp/script-output.txt 2>> /tmp/script-error.txt
 
           # Create a new ConfigMap YAML and replace the existing ConfigMap
-          kubectl create configmap {{ .Values.jobs.monitorJob.script.resultConfigMapName }} --from-file=output=/tmp/script-output.txt --dry-run=client -o yaml > /tmp/configmap.yaml
+          kubectl create configmap {{ .Values.jobs.monitorJob.script.resultConfigMapName }} \
+            --from-file=output=/tmp/script-output.txt \
+            --from-file=error=/tmp/script-error.txt \
+            --dry-run=client -o yaml > /tmp/configmap.yaml
           kubectl replace -f /tmp/configmap.yaml
       volumeMounts:
         - name: script-volume
