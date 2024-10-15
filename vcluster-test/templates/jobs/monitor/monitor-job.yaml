@@ -18,6 +18,7 @@ spec:
           ls -la /scripts >> /tmp/script-output.txt 2>> /tmp/script-error.txt
           cat /scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
           
+          mkdir -p /tmp/scripts/
           cp /scripts/monitor.sh /tmp/scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
           chmod +x /tmp/scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
           /tmp/scripts/monitor.sh {{ .Values.jobs.monitorJob.script.argument }} >> /tmp/script-output.txt 2>> /tmp/script-error.txt
