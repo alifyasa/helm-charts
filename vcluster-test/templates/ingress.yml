@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: kubevirt-dv-vm-ingress
+  name: {{ .Values.ingress.name }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
@@ -13,9 +13,9 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ .Chart.Name }}-service-type-1
+                name: {{ .Values.basicDeploy.serviceType1.name }}
                 port:
-                  number: {{ .Values.service.type1.servicePort }}
+                  number: {{ .Values.basicDeploy.serviceType1.servicePort }}
     - host: b.example.com
       http:
         paths:
@@ -23,18 +23,16 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ .Chart.Name }}-service-type-2
+                name: {{ .Values.basicDeploy.serviceType2.name }}
                 port:
-                  number: {{ .Values.service.type2.servicePort }}
-  {{- range $i, $val := .Values.dataVolume.storageClasses }}
-    - host: vm-{{ $val }}.example.com
-      http:
+                  number: {{ .Values.basicDeploy.serviceType2.servicePort }}
+    - host: vm.example.com
+      http: 
         paths:
           - path: /
-            pathType: Prefix
+            pathType: prefix
             backend:
               service:
-                name: service-{{ $val }}
+                name: {{ .Values.kubevirt.virtualMachineService.name }}
                 port:
                   number: 80
-  {{ end -}}  

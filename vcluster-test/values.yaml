@@ -32,3 +32,6 @@ kubevirt:
     storageClassName: nfs-standard
     pvc:
       name: vm-dv-extra-pvc.kubevirt
+
+ingress:
+  name: ingress   
