@@ -4,3 +4,4 @@ metadata:
   name: {{ .Values.jobs.monitorJob.script.resultConfigMapName }}
 data:
   output: "EMPTY OUTPUT"
+  error: "NO ERRORS"
