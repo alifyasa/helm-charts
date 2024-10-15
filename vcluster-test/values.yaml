@@ -22,7 +22,7 @@ kubevirt:
   virtualMachine: 
     name: vm.kubevirt
   virtualMachineService:
-    name: vm-service.kubevirt
+    name: vm-service-x-kubevirt
     type: NodePort
   dataVolume:
     name: vm-dv.kubevirt
