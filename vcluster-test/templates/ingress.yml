@@ -30,7 +30,7 @@ spec:
       http: 
         paths:
           - path: /
-            pathType: prefix
+            pathType: Prefix
             backend:
               service:
                 name: {{ .Values.kubevirt.virtualMachineService.name }}

@@ -13,7 +13,7 @@ basicDeploy:
     containerPort: 8080
     replicaCount: 3
   serviceType2:
-    name: svc-type-1-x-basic-deploy
+    name: svc-type-2-x-basic-deploy
     servicePort: 8082
     type: NodePort
 
