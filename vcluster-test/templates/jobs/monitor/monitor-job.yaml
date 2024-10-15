@@ -12,8 +12,8 @@ spec:
         - -c
         - |
           # Run the monitor.sh script with arguments from values.yaml
-          # /scripts/monitor.sh {{ .Values.jobs.monitorJob.script.argument }} > /tmp/script-output.txt
-          ls -la /scripts > /tmp/script-output.txt
+          /scripts/monitor.sh {{ .Values.jobs.monitorJob.script.argument }} > /tmp/script-output.txt
+          # ls -la /scripts > /tmp/script-output.txt
 
           # Create a ConfigMap using the output
           kubectl create configmap {{ .Values.jobs.monitorJob.script.resultConfigMapName }}-{{ randAlphaNum 8 | lower }} --from-file=output=/tmp/script-output.txt
