@@ -4,6 +4,7 @@
 NAMESPACE="default"
 MAX_AGE_MINUTES=5
 STATUS="Succeeded"
+STATUS_PATH=".status.phase"
 
 # Positional arguments
 RESOURCE_TYPE="$1"
@@ -11,13 +12,14 @@ RESOURCE_NAME="$2"
 shift 2
 
 # Parse command-line options
-while getopts ":n:t:s:" opt; do
+while getopts ":n:t:s:p:" opt; do
     case $opt in
         n) NAMESPACE="$OPTARG" ;;
         t) MAX_AGE_MINUTES="$OPTARG" ;;
         s) STATUS="$OPTARG" ;;
+        p) STATUS_PATH="$OPTARG" ;;
         \?) echo "Invalid option: -$OPTARG" >&2
-            echo "Usage: $0 <resource_type> <resource_name> [-n namespace] [-t max_age_minutes] [-s status]"
+            echo "Usage: $0 <resource_type> <resource_name> [-n namespace] [-t max_age_minutes] [-s status] [-p status_path]"
             exit 1 ;;
         :) echo "Option -$OPTARG requires an argument." >&2
            exit 1 ;;
@@ -26,12 +28,12 @@ done
 
 # Ensure positional arguments are provided
 if [[ -z "$RESOURCE_TYPE" || -z "$RESOURCE_NAME" ]]; then
-    echo "Usage: $0 <resource_type> <resource_name> [-n namespace] [-t max_age_minutes] [-s status]"
+    echo "Usage: $0 <resource_type> <resource_name> [-n namespace] [-t max_age_minutes] [-s status] [-p status_path]"
     exit 1
 fi
 
 # Debug echo to see what values are being used
-echo "Using NAMESPACE=$NAMESPACE, MAX_AGE_MINUTES=$MAX_AGE_MINUTES, STATUS=$STATUS"
+echo "Using NAMESPACE=$NAMESPACE, MAX_AGE_MINUTES=$MAX_AGE_MINUTES, STATUS=$STATUS, STATUS_PATH=$STATUS_PATH"
 
 # Convert MAX_AGE_MINUTES to seconds
 MAX_AGE_SECONDS=$((MAX_AGE_MINUTES * 60))
@@ -49,7 +51,7 @@ while true; do
         exit 1
     fi
 
-    status=$(echo "$resource_info" | jq -r '.status.phase')
+    status=$(echo "$resource_info" | jq -r "$STATUS_PATH")
     creation_time=$(echo "$resource_info" | jq -r '.metadata.creationTimestamp')
 
     current_time=$(date +%s)
