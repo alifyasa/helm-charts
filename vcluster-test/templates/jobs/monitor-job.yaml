@@ -2,7 +2,6 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: post-install-job
-  namespace: {{ .Release.Namespace }}
   annotations:
     "helm.sh/hook": post-install
     "helm.sh/hook-delete-policy": hook-succeeded
