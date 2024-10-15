@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Values.jobs.monitorJob.name }}-2
+spec:
+  serviceAccountName: {{ .Values.jobs.monitorJob.serviceAccount.name }}
+  containers:
+    - name: bash-script-container
+      image: bitnami/kubectl:latest
+      command:
+        - sh
+        - -c
+        - |
+          # Run the monitor.sh script with arguments from values.yaml
+          # /scripts/monitor.sh {{ .Values.jobs.monitorJob.script.argument }} > /tmp/script-output.txt
+          echo "???" /tmp/script-output.txt
+
+          # Create a ConfigMap using the output
+          kubectl create configmap {{ .Values.jobs.monitorJob.script.resultConfigMapName }} --from-file=output=/tmp/script-output.txt --dry-run=client -o yaml | kubectl apply -f -
+      volumeMounts:
+        - name: script-volume
+          mountPath: /scripts
+  restartPolicy: Never
+  volumes:
+    - name: script-volume
+      configMap:
+        name: {{ .Values.data.scriptsConfigMap.name }}
+        items:
+          - key: monitor.sh
+            path: monitor.sh
