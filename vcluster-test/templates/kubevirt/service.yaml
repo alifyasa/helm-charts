@@ -18,5 +18,4 @@ spec:
       targetPort: 8081
   type: {{ .Values.kubevirt.virtualMachineService.type }}
   selector:
-    matchLabels:
-      vm: {{ .Values.kubevirt.virtualMachine.name }}
+    vm: {{ .Values.kubevirt.virtualMachine.name }}

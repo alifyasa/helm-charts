@@ -5,7 +5,7 @@ basicDeploy:
     containerPort: 8080
     replicaCount: 3
   serviceType1:
-    name: service-type-1.basic-deploy
+    name: svc-type-1-x-basic-deploy
     servicePort: 8081
     type: NodePort
   deploymentType2:
@@ -13,7 +13,7 @@ basicDeploy:
     containerPort: 8080
     replicaCount: 3
   serviceType2:
-    name: service-type-2.basic-deploy
+    name: svc-type-1-x-basic-deploy
     servicePort: 8082
     type: NodePort
 
@@ -32,6 +32,7 @@ kubevirt:
     storageClassName: nfs-standard
     pvc:
       name: vm-dv-extra-pvc.kubevirt
+      namespace: default
 
 ingress:
   name: ingress   
