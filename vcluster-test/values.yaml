@@ -49,7 +49,9 @@ jobs:
     roleBinding:
       name: role-binding-x-monitor-job
       namespace: default
-    scriptArgument: "vm vm-x-kubevirt -p '.status.ready' -s true -t 10"
+    script:
+      argument: "vm vm-x-kubevirt -p '.status.ready' -s true -t 10"
+      resultConfigMapName: monitor-job-result-x-monitor-job
 
 data:
   scriptsConfigMap:
