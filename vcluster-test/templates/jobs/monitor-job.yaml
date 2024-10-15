@@ -19,7 +19,7 @@ spec:
       volumes:
         - name: script-volume
           configMap:
-            name: bash-script
+            name: {{ .Values.jobs.scriptsConfigMap.name }}
             items:
               - key: monitor.sh
                 path: monitor.sh

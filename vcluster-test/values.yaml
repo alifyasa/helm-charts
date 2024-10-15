@@ -36,3 +36,7 @@ kubevirt:
 
 ingress:
   name: ingress   
+
+jobs:
+  scriptsConfigMap:
+    name: scripts-configmap
