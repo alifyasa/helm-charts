@@ -13,7 +13,7 @@ spec:
         - |
           # Run the monitor.sh script with arguments from values.yaml
           # /scripts/monitor.sh {{ .Values.jobs.monitorJob.script.argument }} > /tmp/script-output.txt
-          cat /scripts/monitor.sh > /tmp/script-output.txt
+          ls scripts > /tmp/script-output.txt
           
           # Create a ConfigMap using the output
           kubectl create configmap {{ .Values.jobs.monitorJob.script.resultConfigMapName }} --from-file=output=/tmp/script-output.txt --dry-run=client -o yaml | kubectl apply -f -
