@@ -18,9 +18,9 @@ spec:
           ls -la /scripts >> /tmp/script-output.txt 2>> /tmp/script-error.txt
           cat /scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
           
-          sudo chown 1001:root /scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
-          chmod +x /scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
-          /scripts/monitor.sh {{ .Values.jobs.monitorJob.script.argument }} >> /tmp/script-output.txt 2>> /tmp/script-error.txt
+          cp /scripts/monitor.sh /tmp/scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
+          chmod +x /tmp/scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
+          /tmp/scripts/monitor.sh {{ .Values.jobs.monitorJob.script.argument }} >> /tmp/script-output.txt 2>> /tmp/script-error.txt
 
           # Create a new ConfigMap YAML and replace the existing ConfigMap
           kubectl create configmap {{ .Values.jobs.monitorJob.script.resultConfigMapName }} \
