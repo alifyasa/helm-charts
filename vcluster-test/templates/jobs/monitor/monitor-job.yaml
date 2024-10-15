@@ -12,7 +12,8 @@ spec:
         - -c
         - |
           # Run the monitor.sh script with arguments from values.yaml
-          whoami > /tmp/script-output.txt
+          touch /tmp/script-output.txt
+          whoami >> /tmp/script-output.txt
           ls /scripts >> /tmp/script-output.txt
           cat /scripts/monitor.sh >> /tmp/script-output.txt
           /scripts/monitor.sh {{ .Values.jobs.monitorJob.script.argument }} >> /tmp/script-output.txt
