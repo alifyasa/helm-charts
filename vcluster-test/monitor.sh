@@ -18,17 +18,22 @@ while getopts ":n:t:s:" opt; do
            exit 1 ;;
     esac
 done
-shift $((OPTIND -1))
+shift $((OPTIND - 1))
 
 # Positional arguments
 RESOURCE_TYPE="$1"
 RESOURCE_NAME="$2"
 
+# Ensure positional arguments are provided
 if [[ -z "$RESOURCE_TYPE" || -z "$RESOURCE_NAME" ]]; then
     echo "Usage: $0 <resource_type> <resource_name> [-n namespace] [-t max_age_minutes] [-s status]"
     exit 1
 fi
 
+# Debug echo to see what values are being used
+echo "Using NAMESPACE=$NAMESPACE, MAX_AGE_MINUTES=$MAX_AGE_MINUTES, STATUS=$STATUS"
+
+# Convert MAX_AGE_MINUTES to seconds
 MAX_AGE_SECONDS=$((MAX_AGE_MINUTES * 60))
 
 get_resource_info() {
