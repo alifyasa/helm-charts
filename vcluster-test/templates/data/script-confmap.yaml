@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: script-confmap
+  name: script-configmap
 data:
   monitor.sh: |-
     {{ .Files.Get "scripts/monitor.sh" | indent 4 }}
