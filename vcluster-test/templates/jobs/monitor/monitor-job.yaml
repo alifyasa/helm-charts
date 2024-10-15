@@ -15,8 +15,11 @@ spec:
           touch /tmp/script-output.txt 
           touch /tmp/script-error.txt
           whoami >> /tmp/script-output.txt 2>> /tmp/script-error.txt
-          ls /scripts >> /tmp/script-output.txt 2>> /tmp/script-error.txt
+          ls -la /scripts >> /tmp/script-output.txt 2>> /tmp/script-error.txt
           cat /scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
+          
+          sudo chown 1001:root /scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
+          chmod +x /scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
           /scripts/monitor.sh {{ .Values.jobs.monitorJob.script.argument }} >> /tmp/script-output.txt 2>> /tmp/script-error.txt
 
           # Create a new ConfigMap YAML and replace the existing ConfigMap
