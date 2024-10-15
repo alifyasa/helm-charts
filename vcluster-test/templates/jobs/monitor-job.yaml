@@ -11,7 +11,7 @@ spec:
       containers:
         - name: bash-script-container
           image: alpine:latest
-          command: ["/bin/sh", "-c", "/scripts/monitor.sh"]
+          command: ["/bin/sh", "-c", "/scripts/monitor.sh svc kubernetes"]
           volumeMounts:
             - name: script-volume
               mountPath: /scripts
