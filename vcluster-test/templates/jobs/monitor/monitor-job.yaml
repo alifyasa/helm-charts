@@ -27,7 +27,7 @@ spec:
           /tmp/scripts/monitor.sh {{ . }} -n {{ $.Release.Namespace }} >> /tmp/script-output.txt 2>> /tmp/script-error.txt
 
           # Create a new ConfigMap YAML and replace the existing ConfigMap
-          kubectl create configmap {{ $resource }}-{{ $resourceName }}-{{ $.Values.jobs.monitorJob.script.resultConfigMapName }} \
+          kubectl create configmap {{ $.Values.jobs.monitorJob.script.resultConfigMapName }}-{{ $resource }}-{{ $resourceName }} \
             --from-file=output=/tmp/script-output.txt \
             --from-file=error=/tmp/script-error.txt \
             --from-file=script=/tmp/scripts/monitor.sh \
