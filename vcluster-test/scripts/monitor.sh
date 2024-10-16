@@ -2,7 +2,7 @@
 
 # Default values
 NAMESPACE="default"
-MAX_AGE_MINUTES=5
+MAX_AGE_MINUTES=15
 STATUS="Succeeded"
 STATUS_PATH=".status.phase"
 
