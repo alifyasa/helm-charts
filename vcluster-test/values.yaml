@@ -67,8 +67,6 @@ jobs:
       - "pvc vm-dv-extra-x-kubevirt -p '.status.phase' -s Bound"
       - "pvc vm-dv-extra-pvc-x-kubevirt -p '.status.phase' -s Bound"
 
-
-
 data:
   scriptsConfigMap:
     name: scripts-configmap

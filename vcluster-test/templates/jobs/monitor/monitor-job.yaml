@@ -33,23 +33,22 @@ spec:
           {{- $resourceName := (index (splitList " " .) 1) }}
 
           # Run the monitor script for each resource and create combined output file
-          RESOURCE_FILE="/tmp/${resource}-${resourceName}.txt"
+          RESOURCE_FILE="/tmp/{{ $resource }}-{{ $resourceName }}.txt"
           touch "$RESOURCE_FILE"
 
           /tmp/scripts/monitor.sh {{ . }} -n {{ $.Release.Namespace }} >> "$RESOURCE_FILE" 2>&1
 
           # Append the resource-specific file to the CONFIGMAP_FILES variable
-          CONFIGMAP_FILES="$CONFIGMAP_FILES --from-file=${resource}-${resourceName}=$RESOURCE_FILE"
+          CONFIGMAP_FILES="$CONFIGMAP_FILES --from-file={{ $resource }}-{{ $resourceName }}=$RESOURCE_FILE"
 
           {{- end }}
 
           # Create a new ConfigMap YAML and replace the existing ConfigMap
-          kubectl create configmap {{ $.Values.jobs.monitorJob.script.resultConfigMapName }} \
+          kubectl create configmap {{ .Values.jobs.monitorJob.script.resultConfigMapName }} \
             $CONFIGMAP_FILES \
             --dry-run=client -o yaml > /tmp/configmap.yaml
 
           kubectl replace -f /tmp/configmap.yaml
-
       volumeMounts:
         - name: script-volume
           mountPath: /scripts
