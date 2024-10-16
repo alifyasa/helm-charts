@@ -1,9 +1,10 @@
 {{- range .Values.jobs.monitorJob.scripts }}
+{{- $resource := (index (splitList " " .) 0) }}
 {{- $resourceName := (index (splitList " " .) 1) }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ $resourceName }}-{{ $.Values.jobs.monitorJob.script.resultConfigMapName }}
+  name: {{ $resource }}-{{ $resourceName }}-{{ $.Values.jobs.monitorJob.script.resultConfigMapName }}
 data:
   output: "EMPTY OUTPUT"
   error: "NO ERRORS"
