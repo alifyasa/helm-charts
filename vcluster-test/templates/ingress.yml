@@ -6,7 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: a.example.com
+    - host: a-{{ randAlphaNum 8 | lower }}.example.com
       http:
         paths:
           - path: /
@@ -16,7 +16,7 @@ spec:
                 name: {{ .Values.basicDeploy.serviceType1.name }}
                 port:
                   number: {{ .Values.basicDeploy.serviceType1.servicePort }}
-    - host: b.example.com
+    - host: b-{{ randAlphaNum 8 | lower }}.example.com
       http:
         paths:
           - path: /
@@ -26,7 +26,7 @@ spec:
                 name: {{ .Values.basicDeploy.serviceType2.name }}
                 port:
                   number: {{ .Values.basicDeploy.serviceType2.servicePort }}
-    - host: vm.example.com
+    - host: vm-{{ randAlphaNum 8 | lower }}.example.com
       http: 
         paths:
           - path: /
