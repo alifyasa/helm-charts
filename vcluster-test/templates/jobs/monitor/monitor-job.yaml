@@ -11,29 +11,45 @@ spec:
         - sh
         - -c
         - |
-          # Run the monitor.sh script with arguments from values.yaml
-          touch /tmp/script-output.txt 
-          touch /tmp/script-error.txt
-          whoami >> /tmp/script-output.txt 2>> /tmp/script-error.txt
-          ls -la /scripts >> /tmp/script-output.txt 2>> /tmp/script-error.txt
-          
+          # Initialize combined output file for default commands
+          COMBINED_DEFAULT_FILE="/tmp/default.txt"
+          touch "$COMBINED_DEFAULT_FILE"
+
+          # Run initial commands and redirect both output and error to the combined file
+          {
+            whoami
+            ls -la /scripts
+            cp /scripts/monitor.sh /tmp/scripts/monitor.sh
+            chmod +x /tmp/scripts/monitor.sh
+          } >> "$COMBINED_DEFAULT_FILE" 2>&1
+
+          # Initialize an empty variable to collect --from-file arguments for the ConfigMap
+          CONFIGMAP_FILES="--from-file=default=$COMBINED_DEFAULT_FILE"
+
           mkdir -p /tmp/scripts/
-          cp /scripts/monitor.sh /tmp/scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
-          chmod +x /tmp/scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
 
           {{- range .Values.jobs.monitorJob.scripts }}
           {{- $resource := (index (splitList " " .) 0) }}
           {{- $resourceName := (index (splitList " " .) 1) }}
-          /tmp/scripts/monitor.sh {{ . }} -n {{ $.Release.Namespace }} >> /tmp/script-output.txt 2>> /tmp/script-error.txt
+
+          # Run the monitor script for each resource and create combined output file
+          RESOURCE_FILE="/tmp/${resource}-${resourceName}.txt"
+          touch "$RESOURCE_FILE"
+
+          /tmp/scripts/monitor.sh {{ . }} -n {{ $.Release.Namespace }} >> "$RESOURCE_FILE" 2>&1
+
+          # Append the resource-specific file to the CONFIGMAP_FILES variable
+          CONFIGMAP_FILES="$CONFIGMAP_FILES --from-file=${resource}-${resourceName}=$RESOURCE_FILE"
+
+          {{- end }}
 
           # Create a new ConfigMap YAML and replace the existing ConfigMap
-          kubectl create configmap {{ $.Values.jobs.monitorJob.script.resultConfigMapName }}-{{ $resource }}-{{ $resourceName }} \
-            --from-file=output=/tmp/script-output.txt \
-            --from-file=error=/tmp/script-error.txt \
-            --from-file=script=/tmp/scripts/monitor.sh \
+          kubectl create configmap {{ $.Values.jobs.monitorJob.script.resultConfigMapName }} \
+            $CONFIGMAP_FILES \
             --dry-run=client -o yaml > /tmp/configmap.yaml
+
           kubectl replace -f /tmp/configmap.yaml
-          {{- end }}
+
       volumeMounts:
         - name: script-volume
           mountPath: /scripts
