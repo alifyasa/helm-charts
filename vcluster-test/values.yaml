@@ -32,7 +32,7 @@ kubevirt:
     storageClassName: nfs-standard
     pvc:
       name: vm-dv-extra-pvc-x-kubevirt
-      namespace: default
+      #namespace: default
 
 ingress:
   name: ingress   
@@ -42,16 +42,32 @@ jobs:
     name: job-x-monitor-job
     serviceAccount:
       name: service-account-x-monitor-job
-      namespace: default
+      #namespace: default
     role:
       name: role-x-monitor-job
-      namespace: default
+      #namespace: default
     roleBinding:
       name: role-binding-x-monitor-job
-      namespace: default
+      #namespace: default
     script:
       argument: "svc kubernetes -p '.status.ready' -s true -t 10"
       resultConfigMapName: monitor-job-result-x-monitor-job
+      arguments:
+    scripts:
+      - "deploy deployment-type-1-x-basic-deploy -p '.status.availableReplicas' -s 3"
+      - "deploy deployment-type-2-x-basic-deploy -p '.status.availableReplicas' -s 3"
+
+      - "vm vm-x-kubevirt -p '.status.ready' -s true"
+      - "vmi vm-x-kubevirt -p '.status.phase' -s Running"
+      
+      - "dv vm-dv-x-kubevirt -p '.status.phase' -s Succeeded"
+      - "dv vm-dv-extra-x-kubevirt -p '.status.phase' -s Succeeded"
+
+      - "pvc vm-dv-x-kubevirt -p '.status.phase' -s Bound"
+      - "pvc vm-dv-extra-x-kubevirt -p '.status.phase' -s Bound"
+      - "pvc vm-dv-extra-pvc-x-kubevirt -p '.status.phase' -s Bound"
+
+
 
 data:
   scriptsConfigMap:

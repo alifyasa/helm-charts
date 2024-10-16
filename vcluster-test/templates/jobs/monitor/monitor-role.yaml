@@ -2,7 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: {{ .Values.jobs.monitorJob.role.name }}
-  namespace: {{ .Values.jobs.monitorJob.role.namespace }}
+  namespace: {{ .Values.jobs.monitorJob.role.namespace | default .Release.Namespace }}
 rules:
   - apiGroups: [""]
     resources: ["pods", "services"]

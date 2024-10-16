@@ -6,7 +6,7 @@ spec:
   source:
     pvc:
       name: {{ .Values.kubevirt.dataVolumeExtra.pvc.name }}
-      namespace: {{ .Values.kubevirt.dataVolumeExtra.pvc.namespace }}
+      namespace: {{ .Values.kubevirt.dataVolumeExtra.pvc.namespace | default .Release.Namespace }}
   storage:
     storageClassName: {{ .Values.kubevirt.dataVolumeExtra.storageClassName }}
     accessModes:
