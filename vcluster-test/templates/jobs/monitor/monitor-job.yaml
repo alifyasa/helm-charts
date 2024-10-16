@@ -52,7 +52,7 @@ spec:
       volumeMounts:
         - name: script-volume
           mountPath: /scripts
-  restartPolicy: Never
+  restartPolicy: OnFailure
   volumes:
     - name: script-volume
       configMap:
