@@ -25,7 +25,7 @@ spec:
           {{- range .Values.jobs.monitorJob.scripts }}
           {{- $resource := (index (splitList " " .) 0) }}
           {{- $resourceName := (index (splitList " " .) 1) }}
-          /tmp/scripts/monitor.sh {{ . }} >> /tmp/script-output.txt 2>> /tmp/script-error.txt
+          /tmp/scripts/monitor.sh {{ . }} -n {{ $.Release.Namespace }} >> /tmp/script-output.txt 2>> /tmp/script-error.txt
 
           # Create a new ConfigMap YAML and replace the existing ConfigMap
           kubectl create configmap {{ $resource }}-{{ $resourceName }}-{{ $.Values.jobs.monitorJob.script.resultConfigMapName }} \
