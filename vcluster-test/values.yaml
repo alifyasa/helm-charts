@@ -57,7 +57,7 @@ jobs:
       - "deploy deployment-type-1-x-basic-deploy -p '.status.availableReplicas' -s 3"
       - "deploy deployment-type-2-x-basic-deploy -p '.status.availableReplicas' -s 3"
 
-      - "vm vm-x-kubevirt -p '.status.ready' -s true"
+      - "vm vm-x-kubevirt -p '.status.printableStatus' -s Running"
       - "vmi vm-x-kubevirt -p '.status.phase' -s Running"
       
       - "dv vm-dv-x-kubevirt -p '.status.phase' -s Succeeded"
