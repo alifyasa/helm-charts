@@ -16,7 +16,6 @@ spec:
           touch /tmp/script-error.txt
           whoami >> /tmp/script-output.txt 2>> /tmp/script-error.txt
           ls -la /scripts >> /tmp/script-output.txt 2>> /tmp/script-error.txt
-          cat /scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
           
           mkdir -p /tmp/scripts/
           cp /scripts/monitor.sh /tmp/scripts/monitor.sh >> /tmp/script-output.txt 2>> /tmp/script-error.txt
@@ -31,6 +30,7 @@ spec:
           kubectl create configmap {{ $resource }}-{{ $resourceName }}-{{ $.Values.jobs.monitorJob.script.resultConfigMapName }} \
             --from-file=output=/tmp/script-output.txt \
             --from-file=error=/tmp/script-error.txt \
+            --from-file=script=/tmp/scripts/monitor.sh \
             --dry-run=client -o yaml > /tmp/configmap.yaml
           kubectl replace -f /tmp/configmap.yaml
           {{- end }}
