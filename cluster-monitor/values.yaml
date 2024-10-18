@@ -1,0 +1,26 @@
+kube-state-metrics:
+  fullnameOverride: "kube-state-metrics"
+
+prometheus:
+  alertmanager:
+    enabled: false
+  pushgateway:
+    enabled: false
+  server:
+    service:
+      type: ClusterIP
+
+grafana:
+  adminPassword: "admin"
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: false
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          url: http://prometheus-server.monitoring.svc.cluster.local:80
