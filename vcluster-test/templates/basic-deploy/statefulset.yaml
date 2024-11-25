@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: stateful-busybox
+spec:
+  serviceName: "stateful-busybox-service"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: stateful-busybox
+  template:
+    metadata:
+      labels:
+        app: stateful-busybox
+    spec:
+      containers:
+        - name: busybox
+          image: busybox
+          resources:
+            limits:
+              cpu: 250m
+              memory: 500Mi
+          ports:
+            - containerPort: 8080
+          env:
+            - name: Type
+              value: "1"
+          command:
+            - "sh"
+            - "-c"
+            - |
+                while true; do
+                  {
+                    BODY="Current time: $(date)\n\nEnvironment Variables:\n$(printenv)\n";
+                    echo -ne "HTTP/1.1 200 OK\r\nContent-Length: $(echo -ne "$BODY" | wc -c)\r\n\r\n$BODY";
+                  } | nc -l -p 8080;
+                done
+  volumeClaimTemplates:
+  - metadata:
+      name: stateful-busybox-pvc
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
